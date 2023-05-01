@@ -1,5 +1,5 @@
-﻿using Infra.Database;
-using Shared.ValueObject.DTO;
+﻿using Core.RepositoryInterfaces;
+using Infra.Database;
 
 namespace Infra.Repository.User;
 
@@ -10,15 +10,10 @@ internal class UserRepository : IUserRepository
     {
         _context = context;
     }
-    public async Task<Core.Domain.Entities.User> Create(UserDTO user)
+    public async Task<Core.Domain.Entities.User> Create(Core.Domain.Entities.User user)
     {
 
-        var created_user = await _context.Users.AddAsync(new Core.Domain.Entities.User
-        {
-            Name = user.Name,
-            Email = user.Email,
-            Password = user.Password,
-        });
+        var created_user = await _context.Users.AddAsync(user);
         
         return created_user.Entity;
     }

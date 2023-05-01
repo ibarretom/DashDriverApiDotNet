@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Core.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Core.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database;
 
