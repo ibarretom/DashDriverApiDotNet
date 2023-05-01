@@ -2,12 +2,12 @@
 
 namespace Infra.Repository;
 
-internal class UnityOfWork : IUnityOfWork, IDisposable
+internal class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly DashDriverContext _context;
     private bool _disposed;
 
-    public UnityOfWork(DashDriverContext context)
+    public UnitOfWork(DashDriverContext context)
     {
         _context = context;
     }

@@ -19,6 +19,6 @@ public static class Bootstraper
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUnityOfWork, UnityOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Infra.Repository;
 
-public interface IUnityOfWork
+public interface IUnitOfWork
 {
     Task Commit();
 }
