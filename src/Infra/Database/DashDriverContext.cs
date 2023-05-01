@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Infra.Database;
 
-public class DashDriverContext : DbContext
+internal class DashDriverContext : DbContext
 {
     public DashDriverContext(DbContextOptions<DashDriverContext> options) : base(options)
     {

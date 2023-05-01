@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Api.Migrations
+namespace Infra.Migrations
 {
     [DbContext(typeof(DashDriverContext))]
     partial class DashDriverContextModelSnapshot : ModelSnapshot
@@ -32,16 +32,23 @@ namespace Api.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("varchar(255)")
                         .HasColumnName("email");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("password");
+
+                    b.Property<string>("PhotoURL")
+                        .HasColumnType("longtext")
+                        .HasColumnName("photo_url");
 
                     b.HasKey("Id");
 
