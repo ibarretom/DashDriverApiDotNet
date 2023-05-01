@@ -11,7 +11,9 @@ public static class Bootstraper
     {
         services.AddDbContext<DashDriverContext>(options =>
         {
-            options.UseMySql(configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 26)));
+            options.UseMySql(configuration.GetConnectionString("DefaultConnection"), 
+                new MySqlServerVersion(new Version(8, 0, 26)), 
+                b => b.MigrationsAssembly("Api"));
         });
     }
 }
