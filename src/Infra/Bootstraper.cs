@@ -1,4 +1,6 @@
 ﻿using Infra.Database;
+using Infra.Repository;
+using Infra.Repository.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +15,10 @@ public static class Bootstraper
         {
             options.UseMySql(configuration.GetConnectionString("DefaultConnection"), 
                 new MySqlServerVersion(new Version(8, 0, 26)), 
-                b => b.MigrationsAssembly("Api"));
+                b => b.MigrationsAssembly("Infra"));
         });
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUnityOfWork, UnityOfWork>();
     }
 }
