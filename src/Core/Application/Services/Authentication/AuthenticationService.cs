@@ -1,9 +1,10 @@
 ﻿using Core.Domain.Entities;
 using Core.RepositoryInterfaces;
-using Infra.Repository;
 using Shared.ValueObject.DTO;
 using Shared.ValueObject.Response;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("CoreTest")]
 namespace Core.Application.Services.Authentication;
 
 internal class AuthenticationService : IAuthenticationService

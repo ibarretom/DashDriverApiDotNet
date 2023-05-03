@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using Shared.ValueObject.DTO;
 
-namespace Shared.test.ValueObject;
+namespace TestUtils.ValueObject;
 
 public static class UserDTOTest
 {

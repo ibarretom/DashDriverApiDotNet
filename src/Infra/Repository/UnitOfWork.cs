@@ -1,4 +1,5 @@
-﻿using Infra.Database;
+﻿using Core.RepositoryInterfaces;
+using Infra.Database;
 
 namespace Infra.Repository;
 

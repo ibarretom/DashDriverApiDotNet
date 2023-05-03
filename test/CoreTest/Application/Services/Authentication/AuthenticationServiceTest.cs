@@ -1,12 +1,10 @@
 ﻿using Core.Application.Services.Authentication;
 using Core.Domain.Entities;
 using Core.RepositoryInterfaces;
-using Infra.Repository;
 using Moq;
-using Shared.test.ValueObject;
 using Shared.ValueObject.DTO;
 using Shared.ValueObject.Response;
-using Xunit;
+using TestUtils.ValueObject;
 
 namespace Core.Test.Application.Services.Authentication;
 
