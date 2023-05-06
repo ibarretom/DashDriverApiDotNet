@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using Shared;
 using Shared.ValueObject.DTO;
+using Shared.ValueObject.Exceptions;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("CoreTest")]
@@ -17,5 +19,15 @@ internal class UserDTOValidation : AbstractValidator<UserDTO>
         {
             RuleFor(obj => obj.Email).EmailAddress().WithMessage(ErrorMessagesResource.EMAIL_INVALID);
         });
+    }
+
+    public void ValidateInput(UserDTO user)
+    {
+        ValidationResult result = Validate(user);
+
+        if (!result.IsValid)
+        {
+            throw new ValidationErrorException(result.Errors.Select(error => error.ErrorMessage));
+        }
     }
 }
