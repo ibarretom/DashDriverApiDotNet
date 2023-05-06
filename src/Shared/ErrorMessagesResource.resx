@@ -129,4 +129,7 @@
   <data name="PASSWORD_BLANK" xml:space="preserve">
     <value>Password is required.</value>
   </data>
+  <data name="USER_ALREADY_REGISTERED" xml:space="preserve">
+    <value>This e-mail is already registered.</value>
+  </data>
 </root>

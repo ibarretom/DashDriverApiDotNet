@@ -95,5 +95,14 @@ namespace Shared {
                 return ResourceManager.GetString("PASSWORD_BLANK", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This e-mail is already registered..
+        /// </summary>
+        public static string USER_ALREADY_REGISTERED {
+            get {
+                return ResourceManager.GetString("USER_ALREADY_REGISTERED", resourceCulture);
+            }
+        }
     }
 }
