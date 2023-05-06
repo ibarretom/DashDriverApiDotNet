@@ -11,10 +11,12 @@ internal class AuthenticationService : IAuthenticationService
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public AuthenticationService(IUserRepository userRepository, IUnitOfWork unitOfWork)
+    private readonly IPasswordHashService _passwordHashService;
+    public AuthenticationService(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordHashService passwordHash)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
+        _passwordHashService = passwordHash;
     }
 
     public async Task<UserResponse> SignUp(UserDTO user)
@@ -23,7 +25,7 @@ internal class AuthenticationService : IAuthenticationService
         {
             Name = user.Name,
             Email = user.Email,
-            Password = user.Password
+            Password = _passwordHashService.Hash(user.Password)
         };
 
         user_created = await _userRepository.Create(user_created);

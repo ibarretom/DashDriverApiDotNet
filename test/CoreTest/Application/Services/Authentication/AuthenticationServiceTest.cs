@@ -37,7 +37,11 @@ public class AuthenticationServiceTest
 
         var unitOfWork = new Mock<IUnitOfWork>();
 
-        IAuthenticationService authService = new AuthenticationService(repository.Object, unitOfWork.Object);
+        var passwordHashService = new Mock<IPasswordHashService>();
+
+        passwordHashService.Setup(h => h.Hash(It.IsAny<string>())).Returns(userDTO.Password);
+
+        IAuthenticationService authService = new AuthenticationService(repository.Object, unitOfWork.Object, passwordHashService.Object);
 
         //Execution
         UserResponse user_created = await authService.SignUp(userDTO);
