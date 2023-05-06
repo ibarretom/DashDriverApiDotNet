@@ -1,5 +1,6 @@
 ﻿using Core.RepositoryInterfaces;
 using Infra.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repository.User;
 
@@ -16,5 +17,12 @@ internal class UserRepository : IUserRepository
         var created_user = await _context.Users.AddAsync(user);
         
         return created_user.Entity;
+    }
+
+    public async Task<Core.Domain.Entities.User> FindByEmail(string email)
+    {
+        var user_found = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+        return user_found;
     }
 }
