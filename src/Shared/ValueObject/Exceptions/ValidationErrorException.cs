@@ -2,10 +2,8 @@
 
 public class ValidationErrorException : DashDriverException
 {
-    public IEnumerable<string> ErrorMessages { get; set; }
     
-    public ValidationErrorException(IEnumerable<string> errorMessages)
+    public ValidationErrorException(IEnumerable<string> errorMessages) : base(errorMessages)
     {
-        ErrorMessages = errorMessages;
     }
 }
