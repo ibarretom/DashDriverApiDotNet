@@ -1,6 +1,8 @@
 ﻿using Core.Domain.Entities;
 using Core.RepositoryInterfaces;
+using Shared;
 using Shared.ValueObject.DTO;
+using Shared.ValueObject.Exceptions;
 using Shared.ValueObject.Response;
 using System.Runtime.CompilerServices;
 
@@ -27,6 +29,11 @@ internal class AuthenticationService : IAuthenticationService
             Email = user.Email,
             Password = _passwordHashService.Hash(user.Password)
         };
+
+        if (await _userRepository.FindByEmail(user.Email) != null)
+        {
+            throw new UserAlreadyRegisteredException(ErrorMessagesResource.USER_ALREADY_REGISTERED);
+        }
 
         user_created = await _userRepository.Create(user_created);
         await _unitOfWork.Commit();
