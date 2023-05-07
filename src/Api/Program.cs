@@ -1,5 +1,6 @@
 using Infra;
 using Core;
+using Api.Filters;
 
 namespace Api;
 
@@ -18,6 +19,8 @@ public class Program
 
         builder.Services.AddInfra(builder.Configuration);
         builder.Services.AddCoreApplication();
+
+        builder.Services.AddMvc((opt) => opt.Filters.Add(typeof(ExceptionsFilter)));
 
         var app = builder.Build();
 
