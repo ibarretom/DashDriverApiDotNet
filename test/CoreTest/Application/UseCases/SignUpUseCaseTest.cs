@@ -1,5 +1,5 @@
 ﻿using Core.Application.Services.Authentication;
-using Core.Application.UseCases;
+using Core.Application.UseCases.Authentication;
 using Moq;
 using Shared;
 using Shared.ValueObject.DTO;
