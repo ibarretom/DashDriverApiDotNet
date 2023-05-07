@@ -53,6 +53,7 @@ public class AuthenticationServiceTest
         UserResponse user_created = await authService.SignUp(userDTO);
 
         //Assertion
+        unitOfWork.Verify(u => u.Commit(), Times.Once);
         Assert.Equal(user_created.Name, user.Name);
         Assert.Equal(user_created.Email, user.Email);
         Assert.NotEqual(user_created.Id, Guid.Empty);
@@ -89,5 +90,42 @@ public class AuthenticationServiceTest
         var exception = await Assert.ThrowsAsync<UserAlreadyRegisteredException>(action);
 
         Assert.Equal(ErrorMessagesResource.USER_ALREADY_REGISTERED, exception.Message);
+    }
+
+    [Fact]
+    public async Task ShouldCallIPasswordToHashFunction()
+    {
+        //Setup
+        var mapper = new MapperConfiguration(cfg =>
+        {
+            cfg.AddMaps(typeof(AutoMapperProfile).Assembly);
+        }).CreateMapper();
+        
+        UserDTO userDTO = UserDTOTest.Build();
+        User user = mapper.Map<User>(userDTO);
+        
+        var repository = new Mock<IUserRepository>();
+        repository.Setup(ur => ur.Create(It.IsAny<User>()).Result).Returns(new User
+        {
+            Id = Guid.NewGuid(),
+            Name = user.Name,
+            Email = user.Email,
+            Password = user.Password,
+            PhotoURL = user.PhotoURL,
+            CreatedAt = DateTime.Now
+        });
+        
+        var unitOfWork = new Mock<IUnitOfWork>();
+        
+        var passwordHashService = new Mock<IPasswordHashService>();
+        passwordHashService.Setup(h => h.Hash(It.IsAny<string>())).Returns(userDTO.Password);
+        
+        IAuthenticationService authService = new AuthenticationService(repository.Object, unitOfWork.Object, passwordHashService.Object, mapper);
+
+        //Execution
+        UserResponse user_created = await authService.SignUp(userDTO);
+        
+        //Assertion
+        passwordHashService.Verify(h => h.Hash(It.IsAny<string>()), Times.Once);
     }
 }

@@ -27,6 +27,7 @@ internal class AuthenticationService : IAuthenticationService
     public async Task<UserResponse> SignUp(UserDTO user)
     {
         User user_created = _mapper.Map<User>(user);
+        user_created.Password = _passwordHashService.Hash(user.Password);
 
         if (await _userRepository.FindByEmail(user_created.Email) != null)
         {
