@@ -79,6 +79,15 @@ namespace Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An unknown error occurred..
+        /// </summary>
+        public static string INTERNAL_SERVER_ERROR {
+            get {
+                return ResourceManager.GetString("INTERNAL_SERVER_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name is required..
         /// </summary>
         public static string NAME_BLANK {
