@@ -1,4 +1,5 @@
 using Infra;
+using Core;
 
 namespace Api;
 
@@ -16,6 +17,7 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddInfra(builder.Configuration);
+        builder.Services.AddCoreApplication();
 
         var app = builder.Build();
 
