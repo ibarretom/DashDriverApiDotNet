@@ -3,9 +3,9 @@ using Core.Domain.Services.Validation;
 using Shared.ValueObject.DTO;
 using Shared.ValueObject.Response;
 
-namespace Core.Application.UseCases;
+namespace Core.Application.UseCases.Authentication;
 
-internal class SignUpUseCase
+internal class SignUpUseCase : ISignUpUseCase
 {
     private readonly IAuthenticationService _authService;
     public SignUpUseCase(IAuthenticationService authService)
