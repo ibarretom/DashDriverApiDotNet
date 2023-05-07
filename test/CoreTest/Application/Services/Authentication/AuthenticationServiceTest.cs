@@ -1,5 +1,7 @@
-﻿using Core.Application.Services.Authentication;
+﻿using AutoMapper;
+using Core.Application.Services.Authentication;
 using Core.Domain.Entities;
+using Core.Domain.Services.Mappers;
 using Core.RepositoryInterfaces;
 using Moq;
 using Shared;
@@ -15,15 +17,17 @@ public class AuthenticationServiceTest
     [Fact]
     private async Task Success()
     {
+
         //Setup
         DateTime timeInTestBeginning = DateTime.Now;
-        UserDTO userDTO = UserDTOTest.Build();
-        User user = new User
+        
+        var mapper = new MapperConfiguration(cfg =>
         {
-            Name = userDTO.Name,
-            Email = userDTO.Email,
-            Password = userDTO.Password
-        };
+            cfg.AddMaps(typeof(AutoMapperProfile).Assembly);
+        }).CreateMapper();
+
+        UserDTO userDTO = UserDTOTest.Build();
+        User user = mapper.Map<User>(userDTO);
 
         var repository = new Mock<IUserRepository>();
 
@@ -43,7 +47,7 @@ public class AuthenticationServiceTest
 
         passwordHashService.Setup(h => h.Hash(It.IsAny<string>())).Returns(userDTO.Password);
 
-        IAuthenticationService authService = new AuthenticationService(repository.Object, unitOfWork.Object, passwordHashService.Object);
+        IAuthenticationService authService = new AuthenticationService(repository.Object, unitOfWork.Object, passwordHashService.Object, mapper);
 
         //Execution
         UserResponse user_created = await authService.SignUp(userDTO);
@@ -60,33 +64,23 @@ public class AuthenticationServiceTest
     public async Task ShouldNotBeAbleToCreateAUserThatIsAlreadyRegistered()
     {
         //Setup
+        var mapper = new MapperConfiguration(cfg =>
+        {
+            cfg.AddMaps(typeof(AutoMapperProfile).Assembly);
+        }).CreateMapper();
+
         UserDTO userDTO = UserDTOTest.Build();
 
-        User user = new User
-        {
-            Name = userDTO.Name,
-            Email = userDTO.Email,
-            Password = userDTO.Password
-        };
+        User user = mapper.Map<User>(userDTO);
 
         var repository = new Mock<IUserRepository>();
-        repository.Setup(ur => ur.Create(It.IsAny<User>()).Result).Returns(new User
-        {
-            Id = Guid.NewGuid(),
-            Name = user.Name,
-            Email = user.Email,
-            Password = user.Password,
-            PhotoURL = user.PhotoURL,
-            CreatedAt = DateTime.Now
-        });
         repository.Setup(ur => ur.FindByEmail(userDTO.Email)).ReturnsAsync(user);
 
         var unitOfWork = new Mock<IUnitOfWork>();
 
         var passwordHashService = new Mock<IPasswordHashService>();
-        passwordHashService.Setup(h => h.Hash(It.IsAny<string>())).Returns(userDTO.Password);
 
-        IAuthenticationService authService = new AuthenticationService(repository.Object, unitOfWork.Object, passwordHashService.Object);
+        IAuthenticationService authService = new AuthenticationService(repository.Object, unitOfWork.Object, passwordHashService.Object, mapper);
 
         //Execution
         Func<Task> action = async () => await authService.SignUp(userDTO);
