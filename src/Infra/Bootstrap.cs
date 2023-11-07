@@ -22,4 +22,15 @@ public static class Bootstrap
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
+
+    public static void RunMigrations(IServiceProvider service)
+    {
+        //Run EF Core Migrations
+        using (var scope = service.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<DashDriverContext>();
+            context.Database.Migrate();
+        }
+
+    }
 }

@@ -1,6 +1,7 @@
 using Infra;
 using Core;
 using Api.Filters;
+using Shared.ValueObject.Exceptions;
 
 namespace Api;
 
@@ -29,6 +30,11 @@ public class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+        }
+
+        if(!app.Environment.IsDevelopment() && !app.Environment.IsProduction())
+        {
+            Infra.Bootstrap.RunMigrations(app.Services);
         }
 
         app.UseHttpsRedirection();

@@ -1,6 +1,8 @@
 ﻿using Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("ApiTest")]
 namespace Infra.Database;
 
 internal class DashDriverContext : DbContext
